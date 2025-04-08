@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sneaker Hub - Official Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Tổng quát cho form thêm sản phẩm */
+        #add-product-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        /* Các phần tử trong form */
+        #add-product-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        #add-product-form label {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+            color: #333;
+        }
+
+        #add-product-form input[type="text"],
+        #add-product-form input[type="number"],
+        #add-product-form input[type="file"],
+        #add-product-form select,
+        #add-product-form textarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            margin-bottom: 15px;
+        }
+
+        #add-product-form textarea {
+            resize: vertical;
+        }
+
+        /* Nút thêm sản phẩm */
+        #add-product-form button {
+            background-color: #ff6600;
+            color: #fff;
+            font-size: 16px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        #add-product-form button:hover {
+            background-color: #e65c00;
+        }
+
+        /* Hiển thị sản phẩm mới thêm */
+        .product-display {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .product-display img {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        .product-display h2 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product-display p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Thêm khoảng cách giữa các phần */
+        .container {
+            margin-top: 40px;
+        }
+    </style>    
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <nav class="top-nav">
+                    <ul>
+                        <li><a href="#">Trang chủ</a></li>
+                        <li><a href="QLSP.php">Quản lý sản phẩm</a></li>
+                        <li><a href="#">Quản lý đơn hàng</a></li>
+                        <li><a href="QLKH.php">Quản lý Khách Hàng</a>
+                        <li><a href="#">Thống kê sản phẩm</a></li>
+                        <li><a href="#">Thống kê khách hàng</a></li>
+                </nav>
+            </div>
+            <div class="header-main">
+                <div class="logo">
+                    <a href="#"><img src="anh/logo.png" alt="Sneaker Hub"></a>
+                </div>
+       
+                <div class="user-options">
+                    <a href="Login.html">Khanh <i class="fas fa-user"></i></a>
+                    <a href="logout.php">Đăng xuất</a>
+                    <a href="cart.php"><i class="fas fa-shopping-cart"></i></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Banner -->
+    <section class="main-banner">
+        <div class="banner-content">
+            <h1>You Got This</h1>
+            <p>Discover the 2025 Collection – Power Your Performance</p>
+            <a href="#" class="btn">Shop Now</a>
+        </div>
+    </section>
+   <div class="container">
+      
+      <h1>Thêm Sản Phẩm Mới</h1>
+      <form id="add-product-form" enctype="multipart/form-data">
+          <!-- Tên sản phẩm -->
+          <label for="product-name">Tên sản phẩm</label>
+          <input type="text" id="product-name" name="product-name" placeholder="Nhập tên sản phẩm">
+  
+          <!-- Giá sản phẩm -->
+          <label for="product-price">Giá sản phẩm (VND)</label>
+          <input type="number" id="product-price" name="product-price" placeholder="Nhập giá sản phẩm" min="0" step="1000">
+  
+          <!-- Hình ảnh sản phẩm -->
+          <label for="product-image">Hình ảnh sản phẩm</label>
+          <input type="file" id="product-image" name="product-image" accept="image/*">
+  
+          <!-- Size sản phẩm -->
+          <label>Size sản phẩm</label>
+          <div class="size-options">
+              <label><input type="checkbox" name="product-size" value="36"> 36</label>
+              <label><input type="checkbox" name="product-size" value="37"> 37</label>
+              <label><input type="checkbox" name="product-size" value="38"> 38</label>
+              <label><input type="checkbox" name="product-size" value="39"> 39</label>
+              <label><input type="checkbox" name="product-size" value="40"> 40</label>
+              <label><input type="checkbox" name="product-size" value="41"> 41</label>
+              <label><input type="checkbox" name="product-size" value="42"> 42</label>
+              <label><input type="checkbox" name="product-size" value="43"> 43</label>
+          </div>
+  
+          <!-- Mô tả sản phẩm -->
+          <label for="product-description">Mô tả sản phẩm</label>
+          <textarea id="product-description" name="product-description" placeholder="Nhập mô tả sản phẩm" rows="4"></textarea>
+  
+          <!-- Nút thêm sản phẩm -->
+          <button type="submit">Thêm Sản Phẩm</button>
+      </form>
+  
+      <!-- Hiển thị sản phẩm mới thêm -->
+      <div id="product-display" class="product-display" style="display: none;">
+          <img id="display-image" alt="Hình ảnh sản phẩm">
+          <h2 id="display-name"></h2>
+          <p><strong>Giá:</strong> <span id="display-price"></span> VND</p>
+          <p><strong>Size:</strong> <span id="display-size"></span></p>
+          <p><strong>Mô tả:</strong> <span id="display-description"></span></p>
+      </div>
+  </div>
+  
+  <script>
+   document.getElementById('add-product-form').addEventListener('submit', function(event) {
+       event.preventDefault(); // Ngăn trình duyệt reload mặc định
+       
+       // Lấy dữ liệu từ form
+       const productName = document.getElementById('product-name').value || 'Không có tên';
+       const productPrice = document.getElementById('product-price').value || '0';
+       const productDescription = document.getElementById('product-description').value || 'Không có mô tả';
+
+       // Lấy danh sách size
+       const sizes = Array.from(document.querySelectorAll('input[name="product-size"]:checked'))
+                          .map(checkbox => checkbox.value)
+                          .join(", ") || 'Không có size';
+
+       // Hiển thị thông báo xác nhận
+       setTimeout(() => {
+           const userAction = confirm('Thêm sản phẩm thành công! Nhấn OK để quay lại trang.');
+           if (userAction) {
+               window.location.href = 'QLSP.html';
+           }
+       }, 100); 
+   });
+</script>
+<div id="jewellery_main_slider" class="carousel slide" data-ride="carousel">
+   <div class="carousel-inner">
+      <!-- Nội dung slide -->
+   </div>
+</div>
+</div>
+</div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+          <p>&copy; 2025 Sneaker Hub. All Rights Reserved.</p>
+      </div>
+  </footer>
+</body>
+</html>

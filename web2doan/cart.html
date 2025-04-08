@@ -1,0 +1,93 @@
+<?php session_start(); ?>
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sneaker Hub - Official Website</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-top">
+                    <nav class="top-nav">
+                        <ul>
+                            <li><a href="#">Nike</a></li>
+                            <li><a href="#">Converse</a></li>
+                            <li><a href="#">Adidas</a></li>
+                            <li><a href="#">Sale</a></li>
+                            <li><a href="#">Custom</a></li>
+                    </nav>
+                </div>
+                <div class="header-main">
+                    <div class="logo">
+                        <a href="#"><img src="anh/logo.png" alt="Sneaker Hub"></a>
+                    </div>
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="Tìm kiếm sản phẩm..." oninput="searchProducts()">
+                        
+                        <!-- Bộ lọc thương hiệu -->
+                        <select id="brandFilter" onchange="searchProducts()">
+                            <option value="">Tất cả thương hiệu</option>
+                            <option value="Nike">Nike</option>
+                            <option value="Adidas">Adidas</option>
+                            <option value="Converse">Converse</option>
+                        </select>
+                    
+                        <!-- Bộ lọc giá -->
+                        <select id="priceFilter" onchange="searchProducts()">
+                            <option value="">Tất cả mức giá</option>
+                            <option value="0-100">$0 - $100</option>
+                            <option value="101-200">$101 - $200</option>
+                            <option value="201-300">$201 - $300</option>
+                        </select>
+                    </div>
+                    <div class="user-options">
+                        <a href="Login.html">Khanh <i class="fas fa-user"></i></a>
+                        <a href="shop/index.html"><i class="fas fa-shopping-cart"></i></a>
+                    </div>
+                </div>
+            </div>
+        </header>
+<body>
+    <h1>Danh Sách Sản Phẩm</h1>
+
+    <div class="product-item" data-id="1" data-name="Nike 3" data-price="140">
+        <img src="anhsanpham/anh3.png" alt="Nike 3">
+        <h3>Nike 3</h3>
+        <p>$140</p>
+        <button class="add-to-cart">Thêm vào giỏ</button>
+    </div>
+
+    <div class="product-item" data-id="2" data-name="Converse 4" data-price="200">
+        <img src="anhsanpham/anh4.png" alt="Converse 4">
+        <h3>Converse 4</h3>
+        <p>$200</p>
+        <button class="add-to-cart">Thêm vào giỏ</button>
+    </div>
+
+    <h2><a href="cart.php">Xem giỏ hàng</a></h2>
+
+    <script>
+        $(document).ready(function() {
+            $(".add-to-cart").click(function() {
+                var product = $(this).closest(".product-item");
+                var id = product.data("id");
+                var name = product.data("name");
+                var price = product.data("price");
+
+                $.post("http://localhost/web2doan/add_to_cart.php", { 
+                    id: id, 
+                    name: name, 
+                    price: price 
+                }, function(response) {
+                    alert(response);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
