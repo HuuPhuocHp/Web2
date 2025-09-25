@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đang đăng xuất...</title>
+  <script>
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      user.date_logout = new Date().toLocaleString("vi-VN");
+
+      let users = JSON.parse(localStorage.getItem("users")) || [];
+      const index = users.findIndex(u => u.email === user.email);
+      if (index !== -1) {
+        users[index].date_logout = user.date_logout;
+        localStorage.setItem("users", JSON.stringify(users));
+      }
+
+      localStorage.removeItem("user");
+
+      // Sau 1s mới chuyển trang để người dùng thấy thông báo
+      setTimeout(() => window.location.href = "login.html", 1000);
+    } else {
+      // Nếu chưa đăng nhập thì đưa thẳng về login
+      window.location.href = "login.html";
+    }
+  </script>
+</head>
+<body>
+  <p>Đang đăng xuất, vui lòng chờ...</p>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch Sử Đơn Hàng</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css" />
+    <link rel="stylesheet" href="css/flaticon.css" type="text/css" />
+    <link rel="stylesheet" href="css/barfiller.css" type="text/css" />
+    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+    <link rel="stylesheet" href="css/nice-select.css" type="text/css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+    <style>
+      /* CSS tự tạo cho header bảng màu cam */
+      .thead-orange th {
+        background-color: #f08632 !important; /* cam */
+        color: #fff !important; /* chữ trắng */
+        border-color: #e07122 !important; /* viền cam đậm hơn */
+      }
+    </style>
+  </head>
+  <body>
+    <div id="preloder"><div class="loader"></div></div>
+
+    <!-- Header -->
+    <div id="header-placeholder"></div>
+
+    <main class="page">
+      <div class="breadcrumb-option">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="breadcrumb__text"><h2>Lịch Sử Đơn Hàng</h2></div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="breadcrumb__links">
+                <a href="./index.html">Trang chủ</a
+                ><span>Lịch Sử Đơn Hàng</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <section class="shop spad">
+        <div class="container">
+          <!-- Khi CHƯA đăng nhập -->
+          <div
+            id="login-required"
+            class="alert alert-danger text-center"
+            style="display: none"
+          >
+            <strong>Vui lòng đăng nhập để xem lịch sử đơn hàng.</strong
+            ><br /><br />
+            <a class="primary-btn" href="login.html?return=history_order.html"
+              >Đến trang đăng nhập</a
+            >
+          </div>
+
+          <!-- Khi ĐÃ đăng nhập -->
+          <div id="orders-wrapper" style="display: none">
+            <div class="table-responsive">
+              <table class="table table-bordered table-striped align-middle">
+                <thead class="thead-orange">
+                  <tr>
+                    <th style="white-space: nowrap">Mã đơn</th>
+                    <th style="white-space: nowrap">Ngày đặt</th>
+                    <th>Tên món</th>
+                    <th style="white-space: nowrap">Tổng tiền</th>
+                    <th style="white-space: nowrap">Trạng thái</th>
+                    <th>Địa chỉ</th>
+                  </tr>
+                </thead>
+                <tbody id="orders-tbody">
+                  <!-- JS render -->
+                </tbody>
+              </table>
+            </div>
+            <div
+              id="no-orders"
+              class="alert alert-info text-center"
+              style="display: none"
+            >
+              Chưa có đơn hàng nào.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="footer-placeholder"></div>
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      window.jQuery ||
+        document.write('<script src="js/jquery-3.3.1.min.js"><\/script>');
+    </script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/jquery.nicescroll.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/jquery.barfiller.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/auth.js"></script>
+
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      main.page {
+        flex: 1 0 auto;
+      }
+      td .badge {
+        font-size: 90%;
+      }
+    </style>
+
+    <script>
+      // Helpers: include header/footer + update header UI
+      function applySetBg() {
+        $(".set-bg").each(function () {
+          const bg = $(this).data("setbg");
+          if (bg) $(this).css("background-image", "url(" + bg + ")");
+        });
+      }
+      function include(id, file, cb) {
+        fetch(file)
+          .then((r) => (r.ok ? r.text() : Promise.reject(file)))
+          .then((html) => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = html;
+            applySetBg();
+            cb && cb();
+          })
+          .catch((e) => console.error("Include lỗi:", e));
+      }
+      function updateHeader() {
+        const user = JSON.parse(localStorage.getItem("user") || "null");
+        const inEl = document.getElementById("header-user-loggedin");
+        const outEl = document.getElementById("header-user-loggedout");
+        const nameEl = document.getElementById("header-fullname-placeholder");
+        const menuHistory = document.getElementById("menu-history");
+        if (user) {
+          inEl && (inEl.style.display = "inline-flex");
+          outEl && (outEl.style.display = "none");
+          nameEl && (nameEl.textContent = user.fullname || user.email);
+          menuHistory && (menuHistory.style.display = "");
+        } else {
+          inEl && (inEl.style.display = "none");
+          outEl && (outEl.style.display = "inline");
+          menuHistory && (menuHistory.style.display = "none");
+        }
+        let c = 0;
+        if (user && window.Cart?.getCart) {
+          try {
+            c = (Cart.getCart() || []).reduce(
+              (s, it) => s + Number(it.qty ?? it.quantity ?? 1),
+              0
+            );
+          } catch {}
+        }
+        const head = document.getElementById("header-cart-count");
+        const off = document.getElementById("offcanvas-cart-count");
+        head && (head.textContent = c);
+        off && (off.textContent = c);
+      }
+
+      // Auth guard for page
+      function guard() {
+        const user = JSON.parse(localStorage.getItem("user") || "null");
+        const need = document.getElementById("login-required");
+        const ok = document.getElementById("orders-wrapper");
+        if (user) {
+          need.style.display = "none";
+          ok.style.display = "block";
+        } else {
+          need.style.display = "block";
+          ok.style.display = "none";
+        }
+        return !!user;
+      }
+
+      // Load product map for names/prices
+      async function getProductMap() {
+        try {
+          const r = await fetch("./database/product.json");
+          const arr = await r.json();
+          return Object.fromEntries(arr.map((p) => [Number(p.ProductId), p]));
+        } catch (e) {
+          console.warn("Không tải được product.json", e);
+          return {};
+        }
+      }
+
+      // Load orders of current user
+      function getOrdersOfUser(userId) {
+        try {
+          const key = "orders_" + userId;
+          return JSON.parse(localStorage.getItem(key) || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      function fmtMoney(n) {
+        return (Number(n) || 0).toLocaleString("vi-VN") + " VND";
+      }
+      function fmtDate(iso) {
+        try {
+          const d = new Date(iso || Date.now());
+          const dd = d.toLocaleString("vi-VN");
+          return dd;
+        } catch {
+          return iso || "";
+        }
+      }
+      function paymentStatus(pm) {
+        const v = (pm || "").toLowerCase();
+        return v === "bank" || v === "online"
+          ? { text: "Đã thanh toán", cls: "badge-success" }
+          : { text: "Chưa thanh toán", cls: "badge-warning" };
+      }
+
+      async function renderOrders() {
+        const user = JSON.parse(localStorage.getItem("user") || "null");
+        if (!user) return;
+        const tbody = document.getElementById("orders-tbody");
+        const empty = document.getElementById("no-orders");
+        const orders = getOrdersOfUser(user.id);
+        if (!orders.length) {
+          tbody.innerHTML = "";
+          empty.style.display = "block";
+          return;
+        }
+        empty.style.display = "none";
+        const pmap = await getProductMap();
+
+        const rows = orders
+          .map((o) => {
+            const id = o.id || o.orderId || "ORD" + Date.now();
+            const created = fmtDate(
+              o.createdAt || o.date || o.created || o.time
+            );
+            const info = o.info || o.shipping || {};
+            const pm = (
+              o.paymentMethod ||
+              info.paymentMethod ||
+              ""
+            ).toLowerCase();
+            const st = paymentStatus(pm);
+
+            // Items and total
+            const items = Array.isArray(o.items) ? o.items : [];
+            let total = 0;
+            const names = items.map((it) => {
+              const pid = Number(it.productId ?? it.id);
+              const qty = Number(it.qty ?? it.quantity ?? 1);
+              const prod = pmap[pid];
+              const name = prod ? prod.Name : "SP #" + pid;
+              const price = prod
+                ? Number(prod.SellPrice ?? prod.Price ?? 0)
+                : Number(it.price ?? 0);
+              total += price * qty;
+              return `${name} x${qty}`;
+            });
+
+            const addr = info.address || o.address || "";
+
+            return `<tr>
+          <td>${id}</td>
+          <td>${created}</td>
+          <td style="text-align:left;">${names.join("<br/>")}</td>
+          <td>${fmtMoney(o.total ?? total)}</td>
+          <td><span class="badge ${st.cls}">${st.text}</span></td>
+          <td style="text-align:left;">${addr}</td>
+        </tr>`;
+          })
+          .join("");
+
+        tbody.innerHTML = rows;
+      }
+
+      // Preloader
+      const hidePreloader = () => {
+        const pre = document.getElementById("preloder");
+        if (pre) pre.style.display = "none";
+      };
+      window.addEventListener("load", hidePreloader);
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        await new Promise((res) =>
+          include("header-placeholder", "inc/header.html", res)
+        );
+        include("footer-placeholder", "inc/footer.html");
+        updateHeader();
+        if (guard()) await renderOrders();
+        window.addEventListener("authChanged", async () => {
+          updateHeader();
+          if (guard()) await renderOrders();
+        });
+      });
+    </script>
+  </body>
+</html>
