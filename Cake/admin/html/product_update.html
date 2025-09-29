@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Cập nhật sản phẩm</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1b1b1b;
+      color: #eee;
+      margin: 0;
+      padding: 0;
+    }
+    .content-wrapper { padding: 20px; }
+    h4 { color: #ffcc00; margin-bottom: 20px; text-align: center; }
+    .card {
+      background: #2c2c2c;
+      border-radius: 12px;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+    .form-label { display: block; margin-bottom: 6px; }
+    .form-control, textarea, select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      background: #333;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .btn-primary { background: #ffcc00; color: #111; }
+    .btn-primary:hover { background: #ffaa00; }
+    /* Alert */
+    .alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-weight: bold;
+      display: none;
+    }
+    .alert-success { background: #28a745; color: #fff; }
+  </style>
+</head>
+<body>
+  <div class="content-wrapper">
+    <h4>Cập nhật sản phẩm</h4>
+    <div class="card">
+      <form id="editProductForm">
+        <div class="mb-3">
+          <label class="form-label">Tên sản phẩm</label>
+          <input type="text" class="form-control" id="name" value="Bánh Kem Dâu" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Thương hiệu</label>
+          <select id="id_brands" class="form-control">
+            <option value="1" selected>Paris Bakery</option>
+            <option value="2">Sweet House</option>
+            <option value="3">Tokyo Bakery</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Loại bánh</label>
+          <select id="id_categories" class="form-control">
+            <option value="1" selected>Bánh kem</option>
+            <option value="2">Bánh mì</option>
+            <option value="3">Bánh ngọt</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Hình ảnh</label>
+          <input type="file" class="form-control" id="image">
+          <img src="../uploads/anh6.jpg" alt="Hình ảnh sản phẩm" width="150" style="margin-top:10px;">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Giá nhập</label>
+          <input type="number" class="form-control" id="buy_price" value="150000" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Giá bán</label>
+          <input type="number" class="form-control" id="sell_price" value="200000" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Mô tả</label>
+          <textarea class="form-control" id="description" rows="3" required>Bánh kem dâu tươi ngon, trang trí đẹp mắt.</textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Trạng thái</label>
+          <select id="status" class="form-control">
+            <option value="1" selected>Hiện</option>
+            <option value="0">Ẩn</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Cập nhật</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Alert -->
+  <div id="alertBox" class="alert alert-success">Cập nhật sản phẩm thành công!</div>
+
+  <script>
+    document.getElementById("editProductForm").addEventListener("submit", function(e){
+      e.preventDefault();
+
+      const alertBox = document.getElementById("alertBox");
+      alertBox.style.display = "block";
+
+      setTimeout(()=>{
+        window.location.href = "product_list.html";
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

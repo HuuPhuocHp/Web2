@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Sửa loại bánh</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #1b1b1b;
+      color: #eee;
+      margin: 0;
+      padding: 0;
+    }
+
+    .content-wrapper {
+      padding: 40px;
+    }
+
+    h4 {
+      text-align: center;
+      color: #ffcc00;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+
+    .card {
+      background: #2c2c2c;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      border: 1px solid #444;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    label {
+      color: #ffcc00;
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      background: #333;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+
+    .form-control:focus {
+      border-color: #ffcc00;
+      box-shadow: 0 0 5px #ffcc00;
+      background: #333;
+      color: #fff;
+    }
+
+    .btn {
+      padding: 12px;
+      border-radius: 6px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: #ffcc00;
+      color: #111;
+    }
+
+    .btn-primary:hover {
+      background: #ffaa00;
+      color: #000;
+    }
+
+    /* Alert */
+    .alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      display: none;
+      background: #28a745;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="content-wrapper">
+    <h4 class="fw-bold py-3 mb-4">Sửa loại bánh</h4>
+    <div class="card">
+      <div class="card-body">
+        <form id="editForm">
+          <div class="mb-3">
+            <label class="form-label" for="name">Tên loại bánh</label>
+            <input type="text" class="form-control" id="name" name="name" required />
+          </div>
+          <button type="submit" class="btn btn-primary">Lưu</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alert -->
+  <div id="alertBox" class="alert">Chỉnh sửa thành công!</div>
+
+  <script>
+    // Giả lập dữ liệu cũ lấy từ DB
+    const categoryData = { id: 1, name: "Bánh Kem Le Castella" };
+    document.getElementById("name").value = categoryData.name;
+
+    document.getElementById("editForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      if (name === "") {
+        alert("Tên loại bánh không được để trống!");
+        return;
+      }
+
+      // Giả lập update DB
+      categoryData.name = name;
+
+      // Hiện thông báo
+      const alertBox = document.getElementById("alertBox");
+      alertBox.style.display = "block";
+
+      // Tự động về trang chủ sau 2 giây
+      setTimeout(() => {
+        window.location.href = "category_list.html";
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
