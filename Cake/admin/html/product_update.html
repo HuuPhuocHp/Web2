@@ -111,16 +111,43 @@
   <div id="alertBox" class="alert alert-success">Cập nhật sản phẩm thành công!</div>
 
   <script>
-    document.getElementById("editProductForm").addEventListener("submit", function(e){
-      e.preventDefault();
+     // Lấy danh sách sản phẩm từ localStorage
+  let products = JSON.parse(localStorage.getItem("products")) || [
+    {name:"Bánh Kem Dâu",img:"../uploads/anh6.jpg",type:"Bánh kem",brand:"Paris Bakery",import:150000,price:200000,views:120,status:"Hiện",description:"Bánh kem dâu tươi ngon, trang trí đẹp mắt."},
+    {name:"Bánh Mì Pháp",img:"../uploads/anh5.jpg",type:"Bánh mì",brand:"Bread House",import:10000,price:15000,views:300,status:"Hiện",description:"Bánh mì Pháp thơm ngon."},
+    {name:"Bánh Ngọt Socola",img:"../uploads/anh4.jpg",type:"Bánh ngọt",brand:"Sweetie",import:50000,price:75000,views:90,status:"Ẩn",description:"Bánh ngọt socola béo ngậy."},
+    {name:"Bánh Kem Matcha",img:"../uploads/anh3.jpg",type:"Bánh kem",brand:"Tokyo Bakery",import:120000,price:170000,views:80,status:"Hiện",description:"Bánh kem matcha thơm ngon."},
+    {name:"Bánh Su Kem",img:"../uploads/anh2.jpg",type:"Bánh ngọt",brand:"Sweet House",import:30000,price:50000,views:200,status:"Hiện",description:"Bánh su kem mềm mịn."}
+  ];
 
-      const alertBox = document.getElementById("alertBox");
-      alertBox.style.display = "block";
+  const editForm = document.getElementById("editProductForm");
 
-      setTimeout(()=>{
-        window.location.href = "product_list.html";
-      }, 2000);
-    });
+  editForm.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    // Lấy dữ liệu từ form
+    const name = document.getElementById("name").value;
+    const brand = document.getElementById("id_brands").selectedOptions[0].text;
+    const type = document.getElementById("id_categories").selectedOptions[0].text;
+    const buy_price = parseInt(document.getElementById("buy_price").value);
+    const sell_price = parseInt(document.getElementById("sell_price").value);
+    const description = document.getElementById("description").value;
+    const status = document.getElementById("status").value === "1" ? "Hiện" : "Ẩn";
+
+    // Giả sử đang chỉnh sửa sản phẩm đầu tiên (có thể thêm logic chọn sản phẩm)
+    products[0] = { ...products[0], name, brand, type, import: buy_price, price: sell_price, status, description };
+
+    // Lưu lại localStorage
+    localStorage.setItem("products", JSON.stringify(products));
+
+    // Hiển thị alert
+    const alertBox = document.getElementById("alertBox");
+    alertBox.style.display = "block";
+
+    setTimeout(()=>{
+      window.location.href = "product_list.html";
+    }, 2000);
+  });
   </script>
 </body>
 </html>

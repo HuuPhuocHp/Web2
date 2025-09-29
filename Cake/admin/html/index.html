@@ -306,6 +306,32 @@
             <i class="menu-icon tf-icons bx bx-collection"></i>
             <div data-i18n="Basic">Sản phẩm</div>
           </a>
+
+        <li class="menu-item">
+          <a href="price_management.html" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-dollar-circle"></i>
+            <div data-i18n="Basic">Quản lý giá bán</div>
+          </a>
+        </li>
+
+
+        <!-- 🚀 Mục mới: Quản lý Nhập Hàng -->
+        <li class="menu-item">
+          <a href="import_list.html" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-import"></i>
+            <div data-i18n="Basic">Quản lý Nhập Hàng</div>
+          </a>
+        </li>
+
+        <!-- 🚀 Mục mới: Quản lý Tồn Kho -->
+        <li class="menu-item">
+          <a href="stock_management.html" class="menu-link">
+            <i class="menu-icon tf-icons bx bx-box"></i>
+            <div data-i18n="Basic">Quản lý Tồn Kho</div>
+          </a>
+        </li>
+      </ul>
+      
         </li>
         <li class="menu-item">
           <a href="order_list.html" class="menu-link">
@@ -500,7 +526,7 @@ document.addEventListener('click', function(e) {
 document.getElementById('logoutBtn').addEventListener('click', function(e) {
   e.preventDefault();
   if (confirm("Bạn có chắc chắn muốn đăng xuất không?")) {
-    window.location.href = "login.html"; 
+    window.location.href = "login_admin.html"; 
   }
 });
 
