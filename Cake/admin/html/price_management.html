@@ -21,8 +21,8 @@
     /* Navbar */
     .layout-navbar { background:#2a2a2a; padding:15px 25px; margin-left:240px; border-bottom:2px solid #ffcc00; display:flex; justify-content:space-between; align-items:center; }
     .search-container { display:flex; align-items:center; gap:10px; }
-    .search-bar, .search-date { padding:8px 12px; border-radius:8px; background:#333; color:#fff; border:1px solid #666; }
-    .search-bar:focus, .search-date:focus { border-color:#ffcc00; outline:none; }
+    .search-bar { padding:8px 12px; border-radius:8px; background:#333; color:#fff; border:1px solid #666; }
+    .search-bar:focus { border-color:#ffcc00; outline:none; }
     .search-button { background:#ffcc00; color:#111; border:none; border-radius:8px; padding:8px 16px; font-weight:bold; cursor:pointer; transition:0.3s; }
     .search-button:hover { background:#ffaa00; }
 
@@ -62,8 +62,8 @@
     <li class="menu-item"><a href="product_list.html" class="menu-link"><i class="menu-icon bx bx-collection"></i>Sản phẩm</a></li>
     <li class="menu-item active"><a href="price_management.html" class="menu-link"><i class="menu-icon bx bx-dollar-circle"></i>Quản lý giá bán</a></li>
     <li class="menu-item"><a href="order_list.html" class="menu-link"><i class="menu-icon bx bx-detail"></i>Đơn đặt hàng</a></li>
-    <li class="menu-item"><a href="import_list.html"" class="menu-link">Quản lý nhập hàng</a></li>
-      <li class="menu-item"><a href="stock_management.html" class="menu-link">Quản lý tồn kho</a></li>
+    <li class="menu-item"><a href="import_list.html" class="menu-link">Quản lý nhập hàng</a></li>
+    <li class="menu-item"><a href="stock_management.html" class="menu-link">Quản lý tồn kho</a></li>
     <li class="menu-item"><a href="user_list.html" class="menu-link"><i class="menu-icon bx bx-dock-top"></i>Người dùng</a></li>
   </ul>
 </aside>
@@ -84,8 +84,10 @@
   <label for="categorySelect">Chọn loại sản phẩm:</label>
   <select id="categorySelect">
     <option value="">--Tất cả--</option>
-    <option value="bánh kem">Bánh kem</option>
-    <option value="bánh quy">Bánh quy</option>
+    <option value="Bánh kem">Bánh kem</option>
+    <option value="Bánh quy">Bánh quy</option>
+    <option value="Bánh mì">Bánh mì</option>
+    <option value="Bánh ngọt">Bánh ngọt</option>
   </select>
 
   <!-- Table -->
@@ -102,52 +104,52 @@
       </tr>
     </thead>
     <tbody>
-  <tr data-category="Bánh kem">
-    <td>1</td>
-    <td>Bánh Kem Dâu</td>
-    <td>Bánh kem</td>
-    <td>150,000</td>
-    <td>33%</td>
-    <td>200,000</td>
-    <td><button class="btn editBtn">Sửa</button></td>
-  </tr>
-  <tr data-category="Bánh mì">
-    <td>2</td>
-    <td>Bánh Mì Pháp</td>
-    <td>Bánh mì</td>
-    <td>10,000</td>
-    <td>50%</td>
-    <td>15,000</td>
-    <td><button class="btn editBtn">Sửa</button></td>
-  </tr>
-  <tr data-category="Bánh ngọt">
-    <td>3</td>
-    <td>Bánh Ngọt Socola</td>
-    <td>Bánh ngọt</td>
-    <td>50,000</td>
-    <td>50%</td>
-    <td>75,000</td>
-    <td><button class="btn editBtn">Sửa</button></td>
-  </tr>
-  <tr data-category="Bánh kem">
-    <td>4</td>
-    <td>Bánh Kem Matcha</td>
-    <td>Bánh kem</td>
-    <td>120,000</td>
-    <td>42%</td>
-    <td>170,000</td>
-    <td><button class="btn editBtn">Sửa</button></td>
-  </tr>
-  <tr data-category="Bánh ngọt">
-    <td>5</td>
-    <td>Bánh Su Kem</td>
-    <td>Bánh ngọt</td>
-    <td>30,000</td>
-    <td>67%</td>
-    <td>50,000</td>
-    <td><button class="btn editBtn">Sửa</button></td>
-  </tr>
-</tbody>
+      <tr data-category="Bánh kem">
+        <td>1</td>
+        <td>Bánh Kem Dâu</td>
+        <td>Bánh kem</td>
+        <td>150,000</td>
+        <td>33%</td>
+        <td>200,000</td>
+        <td><button class="btn editBtn">Sửa</button></td>
+      </tr>
+      <tr data-category="Bánh mì">
+        <td>2</td>
+        <td>Bánh Mì Pháp</td>
+        <td>Bánh mì</td>
+        <td>10,000</td>
+        <td>50%</td>
+        <td>15,000</td>
+        <td><button class="btn editBtn">Sửa</button></td>
+      </tr>
+      <tr data-category="Bánh ngọt">
+        <td>3</td>
+        <td>Bánh Ngọt Socola</td>
+        <td>Bánh ngọt</td>
+        <td>50,000</td>
+        <td>50%</td>
+        <td>75,000</td>
+        <td><button class="btn editBtn">Sửa</button></td>
+      </tr>
+      <tr data-category="Bánh kem">
+        <td>4</td>
+        <td>Bánh Kem Matcha</td>
+        <td>Bánh kem</td>
+        <td>120,000</td>
+        <td>42%</td>
+        <td>170,000</td>
+        <td><button class="btn editBtn">Sửa</button></td>
+      </tr>
+      <tr data-category="Bánh ngọt">
+        <td>5</td>
+        <td>Bánh Su Kem</td>
+        <td>Bánh ngọt</td>
+        <td>30,000</td>
+        <td>67%</td>
+        <td>50,000</td>
+        <td><button class="btn editBtn">Sửa</button></td>
+      </tr>
+    </tbody>
   </table>
 </div>
 
@@ -155,9 +157,10 @@
 <div class="modal" id="editModal">
   <div class="modal-content">
     <span class="close-btn" id="closeModal">&times;</span>
-    <h3>Chỉnh sửa % lợi nhuận</h3>
+    <h3>Chỉnh sửa giá vốn & giá bán</h3>
     <p id="productName"></p>
-    <input type="number" id="profitInput" placeholder="% lợi nhuận">
+    <input type="number" id="costInput" placeholder="Giá vốn">
+    <input type="number" id="priceInput" placeholder="Giá bán">
     <br>
     <button class="btn" id="saveBtn">Lưu</button>
   </div>
@@ -168,35 +171,44 @@
   const editBtns = document.querySelectorAll('.editBtn');
   const modal = document.getElementById('editModal');
   const closeModal = document.getElementById('closeModal');
-  const profitInput = document.getElementById('profitInput');
   const productName = document.getElementById('productName');
+  const costInput = document.getElementById('costInput');
+  const priceInput = document.getElementById('priceInput');
   let currentRow;
 
   editBtns.forEach(btn => {
     btn.addEventListener('click', function(){
       currentRow = this.closest('tr');
       const name = currentRow.cells[1].innerText;
-      const profit = currentRow.cells[4].innerText.replace('%','');
+      const cost = currentRow.cells[3].innerText.replace(/,/g,'');
+      const price = currentRow.cells[5].innerText.replace(/,/g,'');
       productName.innerText = name;
-      profitInput.value = profit;
+      costInput.value = cost;
+      priceInput.value = price;
       modal.style.display = 'flex';
     });
   });
 
   closeModal.addEventListener('click', ()=>{ modal.style.display='none'; });
 
-  // Lưu thay đổi % lợi nhuận
+  // Lưu thay đổi
   document.getElementById('saveBtn').addEventListener('click', function(){
-    let newProfit = parseFloat(profitInput.value);
-    if(isNaN(newProfit) || newProfit < 0){
-      alert("Nhập % lợi nhuận hợp lệ!");
+    let cost = parseFloat(costInput.value);
+    let price = parseFloat(priceInput.value);
+
+    if(isNaN(cost) || isNaN(price) || cost <= 0 || price <= 0){
+      alert("Nhập giá hợp lệ!");
       return;
     }
-    currentRow.cells[4].innerText = newProfit + '%';
-    // Tính lại giá bán
-    let cost = parseFloat(currentRow.cells[3].innerText.replace(/,/g,''));
-    let salePrice = Math.round(cost * (1 + newProfit/100));
-    currentRow.cells[5].innerText = salePrice.toLocaleString();
+
+    // Tính % lợi nhuận
+    let profitPercent = ((price - cost) / cost * 100).toFixed(0);
+
+    // Cập nhật bảng
+    currentRow.cells[3].innerText = cost.toLocaleString();
+    currentRow.cells[4].innerText = profitPercent + '%';
+    currentRow.cells[5].innerText = price.toLocaleString();
+
     modal.style.display='none';
   });
 

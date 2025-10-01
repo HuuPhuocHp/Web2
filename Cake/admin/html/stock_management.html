@@ -59,19 +59,19 @@ button { padding:5px 10px; border:none; border-radius:5px; cursor:pointer; backg
 </div>
 
 <script>
-// Dữ liệu mặc định
+// Dữ liệu mặc định (chỉnh số lượng thấp để test cảnh báo)
 let defaultProducts = [
-  {name:"Bánh Kem Dâu",type:"Bánh kem",stock:50},
+  {name:"Bánh Kem Dâu",type:"Bánh kem",stock:8},       // còn ít
   {name:"Bánh Mì Pháp",type:"Bánh mì",stock:200},
-  {name:"Bánh Ngọt Socola",type:"Bánh ngọt",stock:30},
+  {name:"Bánh Ngọt Socola",type:"Bánh ngọt",stock:5},  // còn ít
   {name:"Bánh Kem Matcha",type:"Bánh kem",stock:40},
-  {name:"Bánh Su Kem",type:"Bánh ngọt",stock:80}
+  {name:"Bánh Su Kem",type:"Bánh ngọt",stock:10}       // còn ít
 ];
 
 // Lấy dữ liệu cũ
 let storedProducts = JSON.parse(localStorage.getItem("products")) || [];
 
-// Cập nhật tất cả sản phẩm: nếu thiếu type thì gán mặc định từ defaultProducts
+// Cập nhật tất cả sản phẩm
 let products = storedProducts.map(p=>{
   let defaultItem = defaultProducts.find(d=>d.name===p.name);
   return {

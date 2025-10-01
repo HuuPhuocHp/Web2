@@ -20,7 +20,6 @@
     .form-actions { grid-column: span 4; text-align: center; margin-top: 10px; }
     .btn { display: inline-block; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-weight: bold; margin: 2px; text-align: center; cursor: pointer; }
     .btn-primary { background: #007bff; color: #fff; }
-    .btn-danger { background: #dc3545; color: #fff; }
     .btn-secondary { background: #6c757d; color: #fff; }
     .btn:hover { opacity: 0.85; }
     .card { background: #2c2c2c; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
@@ -55,9 +54,9 @@
       <li class="menu-item"><a href="category_list.html" class="menu-link">Loại bánh</a></li>
       <li class="menu-item"><a href="brand_list.html" class="menu-link">Thương hiệu</a></li>
       <li class="menu-item"><a href="product_list.html" class="menu-link">Sản phẩm</a></li>
-       <li class="menu-item"><a href="price_management.html" class="menu-link">Quản lý giá bán</a></li>
+      <li class="menu-item"><a href="price_management.html" class="menu-link">Quản lý giá bán</a></li>
       <li class="menu-item"><a href="order_list.html" class="menu-link">Đơn đặt hàng</a></li>
-      <li class="menu-item"><a href="import_list.html"" class="menu-link">Quản lý nhập hàng</a></li>
+      <li class="menu-item"><a href="import_list.html" class="menu-link">Quản lý nhập hàng</a></li>
       <li class="menu-item"><a href="stock_management.html" class="menu-link">Quản lý tồn kho</a></li>
       <li class="menu-item"><a href="user_list.html" class="menu-link">Người dùng</a></li>
     </ul>
@@ -117,34 +116,22 @@
               <tr>
                 <td>1</td><td>Nguyễn Văn A</td><td>500000</td><td>2025-09-01</td>
                 <td><span class="label bg-red">Chưa xử lý</span></td>
-                <td>
-                  <a href="order_detail.html" class="btn btn-primary">Chi tiết</a>
-                  <a href="#" class="btn btn-danger" onclick="deleteOrder(this)">Xóa</a>
-                </td>
+                <td><a href="order_detail.html" class="btn btn-primary">Chi tiết</a></td>
               </tr>
               <tr>
                 <td>2</td><td>Trần Thị B</td><td>1200000</td><td>2025-09-05</td>
                 <td><span class="label bg-yellow">Đã Hủy</span></td>
-                <td>
-                  <a href="order_detail.html" class="btn btn-primary">Chi tiết</a>
-                  <a href="#" class="btn btn-danger" onclick="deleteOrder(this)">Xóa</a>
-                </td>
+                <td><a href="order_detail.html" class="btn btn-primary">Chi tiết</a></td>
               </tr>
               <tr>
                 <td>3</td><td>Lê Văn C</td><td>800000</td><td>2025-09-10</td>
                 <td><span class="label bg-blue">Đã xử lý</span></td>
-                <td>
-                  <a href="order_detail.html" class="btn btn-primary">Chi tiết</a>
-                  <a href="#" class="btn btn-danger" onclick="deleteOrder(this)">Xóa</a>
-                </td>
+                <td><a href="order_detail.html" class="btn btn-primary">Chi tiết</a></td>
               </tr>
               <tr>
                 <td>4</td><td>Phạm Thị D</td><td>950000</td><td>2025-09-15</td>
                 <td><span class="label bg-green">Đã giao hàng</span></td>
-                <td>
-                  <a href="order_detail.html" class="btn btn-primary">Chi tiết</a>
-                  <a href="#" class="btn btn-danger" onclick="deleteOrder(this)">Xóa</a>
-                </td>
+                <td><a href="order_detail.html" class="btn btn-primary">Chi tiết</a></td>
               </tr>
             </tbody>
           </table>
@@ -168,66 +155,51 @@
       setTimeout(()=>{alertBox.style.display="none";},3000);
     }
 
-  // Lọc đơn hàng
-const filterForm=document.getElementById("filterForm");
-filterForm.addEventListener("submit", function(e){
-  e.preventDefault();
-  const status=document.getElementById("status").value;
-  const start=document.getElementById("start_date").value;
-  const end=document.getElementById("end_date").value;
-  const location=document.getElementById("location").value.toLowerCase();
+    // Lọc đơn hàng
+    const filterForm=document.getElementById("filterForm");
+    filterForm.addEventListener("submit", function(e){
+      e.preventDefault();
+      const status=document.getElementById("status").value;
+      const start=document.getElementById("start_date").value;
+      const end=document.getElementById("end_date").value;
+      const location=document.getElementById("location").value.toLowerCase();
 
-  // Map status value sang text hiển thị trong bảng
-  const statusMap = {
-    "0": "Chưa xử lý",
-    "1": "Đã Hủy",
-    "2": "Đã xử lý",
-    "3": "Đã giao hàng"
-  };
+      const statusMap = {
+        "0": "Chưa xử lý",
+        "1": "Đã Hủy",
+        "2": "Đã xử lý",
+        "3": "Đã giao hàng"
+      };
 
-  const rows=document.querySelectorAll("#orderTable tbody tr");
-  let matchCount=0;
-  rows.forEach(row=>{
-    let orderStatus=row.cells[4].innerText.trim();  // lấy text trong cột trạng thái
-    let orderDate=row.cells[3].innerText.trim();    // lấy ngày
-    let orderLocation=""; // nếu anh có thêm cột địa điểm thì gán ở đây
-    let show=true;
+      const rows=document.querySelectorAll("#orderTable tbody tr");
+      let matchCount=0;
+      rows.forEach(row=>{
+        let orderStatus=row.cells[4].innerText.trim();
+        let orderDate=row.cells[3].innerText.trim();
+        let orderLocation="";
+        let show=true;
 
-    // so sánh tình trạng
-    if(status!=="" && orderStatus !== statusMap[status]) show=false;
+        if(status!=="" && orderStatus !== statusMap[status]) show=false;
+        if(start && orderDate<start) show=false;
+        if(end && orderDate>end) show=false;
+        if(location && !orderLocation.includes(location)) show=false;
 
-    // lọc ngày
-    if(start && orderDate<start) show=false;
-    if(end && orderDate>end) show=false;
+        row.style.display=show? "":"none";
+        if(show) matchCount++;
+      });
 
-    // lọc địa điểm (giả sử có)
-    if(location && !orderLocation.includes(location)) show=false;
-
-    row.style.display=show? "":"none";
-    if(show) matchCount++;
-  });
-
-  if(matchCount>0){
-    showAlert("Lọc đơn hàng thành công! ("+matchCount+" kết quả)", "info");
-  }else{
-    showAlert("Không có đơn hàng phù hợp!", "danger");
-  }
-});
-
+      if(matchCount>0){
+        showAlert("Lọc đơn hàng thành công! ("+matchCount+" kết quả)", "info");
+      }else{
+        showAlert("Không có đơn hàng phù hợp!", "danger");
+      }
+    });
 
     function resetFilter(){
       filterForm.reset();
       const rows=document.querySelectorAll("#orderTable tbody tr");
       rows.forEach(r=>r.style.display="");
       showAlert("Đã xóa bộ lọc!", "danger");
-    }
-
-    // Xóa đơn hàng
-    function deleteOrder(btn){
-      if(confirm("Bạn có chắc chắn muốn xóa đơn hàng này không?")){
-        btn.closest("tr").remove();
-        showAlert("Xóa đơn hàng thành công!", "success");
-      }
     }
 
     // Phân trang
@@ -254,7 +226,7 @@ filterForm.addEventListener("submit", function(e){
       pagination.appendChild(prev);
       for(let i=1;i<=totalPages;i++){
         const li=document.createElement("li");
-        li.className=(i===currentPage)?"active":"";
+        li.className=(i===currentPage)?"active":""; 
         li.innerHTML=`<a onclick="displayPage(${i})">${i}</a>`;
         pagination.appendChild(li);
       }
