@@ -4,45 +4,257 @@
   <meta charset="UTF-8">
   <title>Danh sách đơn đặt hàng</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #1b1b1b; color: #eee; margin: 0; padding: 0; display: flex; }
-    .layout-menu { width: 220px; background: #2a2a2a; min-height: 100vh; padding: 20px 10px; position: fixed; top: 0; left: 0; border-right: 2px solid #ffcc00; }
-    .app-brand { color: #ffcc00; font-weight: bold; text-align: center; margin-bottom: 20px; font-size: 20px; }
-    .menu-inner { list-style: none; padding: 0; }
-    .menu-item { margin: 8px 0; }
-    .menu-link { display: block; padding: 10px; border-radius: 6px; text-decoration: none; color: #eee; }
-    .menu-link:hover { background: #3a3a3a; color: #ffcc00; }
-    .layout-page { margin-left: 220px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
-    .layout-navbar { background: #2a2a2a; padding: 12px 20px; border-bottom: 2px solid #ffcc00; }
-    h4 { text-align: center; color: #ffcc00; margin: 20px 0; }
-    .form-inline { background: #2c2c2c; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .form-inline label { display: block; margin-bottom: 5px; font-size: 14px; color: #ffcc00; }
-    .form-inline input, .form-inline select { width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #444; background: #333; color: #fff; }
-    .form-actions { grid-column: span 4; text-align: center; margin-top: 10px; }
-    .btn { display: inline-block; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-weight: bold; margin: 2px; text-align: center; cursor: pointer; }
-    .btn-primary { background: #007bff; color: #fff; }
-    .btn-secondary { background: #6c757d; color: #fff; }
-    .btn:hover { opacity: 0.85; }
-    .card { background: #2c2c2c; border-radius: 12px; padding: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { border: 1px solid #444; padding: 10px; text-align: center; }
-    th { background: #2a2a2a; color: #ffcc00; }
-    tr:nth-child(even) { background: #333; }
-    tr:nth-child(odd) { background: #222; }
-    .pagination { list-style: none; display: flex; justify-content: center; gap: 8px; margin-top: 20px; padding: 0; }
-    .pagination a { padding: 6px 12px; background: #333; color: #fff; text-decoration: none; border-radius: 4px; cursor: pointer; }
-    .pagination a:hover { background: #ffcc00; color: #000; }
-    .pagination .active a { background: #ffcc00; color: #000; }
-    .label { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; }
-    .bg-red { background: #dc3545; color: #fff; }
-    .bg-yellow { background: #ffc107; color: #000; }
-    .bg-blue { background: #007bff; color: #fff; }
-    .bg-green { background: #28a745; color: #fff; }
-    .alert { position: fixed; top: 20px; right: 20px; padding: 12px 18px; border-radius: 8px; font-weight: bold; display: none; animation: fadeIn 0.5s, fadeOut 0.5s 2.5s; }
-    .alert-success { background: #28a745; color: #fff; }
-    .alert-danger { background: #dc3545; color: #fff; }
-    .alert-info { background: #007bff; color: #fff; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
+    body { 
+  font-family: Arial, sans-serif; 
+  background: #1b1b1b; 
+  color: #eee; 
+  margin: 0; 
+  padding: 0; 
+  display: flex; 
+}
+
+.layout-menu { 
+  width: 220px; 
+  background: #2a2a2a; 
+  min-height: 100vh; 
+  padding: 20px 10px; 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  border-right: 2px solid #ffcc00; 
+}
+
+.app-brand { 
+  color: #ffcc00; 
+  font-weight: bold; 
+  text-align: center; 
+  margin-bottom: 20px; 
+  font-size: 20px; 
+}
+
+.menu-inner { 
+  list-style: none; 
+  padding: 0; 
+}
+
+.menu-item { 
+  margin: 8px 0; 
+}
+
+.menu-link { 
+  display: block; 
+  padding: 10px; 
+  border-radius: 6px; 
+  text-decoration: none; 
+  color: #eee; 
+}
+
+.menu-link:hover { 
+  background: #3a3a3a; 
+  color: #ffcc00; 
+}
+
+.layout-page { 
+  margin-left: 220px; 
+  flex: 1; 
+  display: flex; 
+  flex-direction: column; 
+  min-height: 100vh; 
+}
+
+.layout-navbar { 
+  background: #2a2a2a; 
+  padding: 12px 20px; 
+  border-bottom: 2px solid #ffcc00; 
+}
+
+h4 { 
+  text-align: center; 
+  color: #ffcc00; 
+  margin: 20px 0; 
+}
+
+/* ==== Bộ lọc ==== */
+.form-inline { 
+  background: #2c2c2c; 
+  padding: 30px; 
+  border-radius: 8px; 
+  margin-bottom: 20px; 
+  display: grid; 
+  grid-template-columns: repeat(4, minmax(200px, 1fr)); /* 4 cột đều nhau */
+  gap: 20px; 
+  align-items: end; 
+}
+
+.form-inline label { 
+  display: block; 
+  margin-bottom: 6px; 
+  font-size: 14px; 
+  color: #ffcc00; 
+  white-space: nowrap; /* không cho label xuống dòng */
+}
+
+.form-inline input, 
+.form-inline select { 
+  width: 100%; 
+  padding: 8px; 
+  border-radius: 6px; 
+  border: 1px solid #444; 
+  background: #333; 
+  color: #fff; 
+  min-width: 180px; 
+}
+
+.form-actions { 
+  grid-column: span 4; 
+  text-align: center; 
+  margin-top: 10px; 
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .form-inline {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 576px) {
+  .form-inline {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==== Nút ==== */
+.btn { 
+  display: inline-block; 
+  padding: 8px 14px; 
+  border-radius: 6px; 
+  text-decoration: none; 
+  font-weight: bold; 
+  margin: 2px; 
+  text-align: center; 
+  cursor: pointer; 
+}
+
+.btn-primary { 
+  background: #007bff; 
+  color: #fff; 
+}
+
+.btn-secondary { 
+  background: #6c757d; 
+  color: #fff; 
+}
+
+.btn:hover { 
+  opacity: 0.85; 
+}
+
+/* ==== Thẻ, bảng ==== */
+.card { 
+  background: #2c2c2c; 
+  border-radius: 12px; 
+  padding: 20px; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4); 
+}
+
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+}
+
+th, td { 
+  border: 1px solid #444; 
+  padding: 10px; 
+  text-align: center; 
+}
+
+th { 
+  background: #2a2a2a; 
+  color: #ffcc00; 
+}
+
+tr:nth-child(even) { 
+  background: #333; 
+}
+
+tr:nth-child(odd) { 
+  background: #222; 
+}
+
+/* ==== Phân trang ==== */
+.pagination { 
+  list-style: none; 
+  display: flex; 
+  justify-content: center; 
+  gap: 8px; 
+  margin-top: 20px; 
+  padding: 0; 
+}
+
+.pagination a { 
+  padding: 6px 12px; 
+  background: #333; 
+  color: #fff; 
+  text-decoration: none; 
+  border-radius: 4px; 
+  cursor: pointer; 
+}
+
+.pagination a:hover { 
+  background: #ffcc00; 
+  color: #000; 
+}
+
+.pagination .active a { 
+  background: #ffcc00; 
+  color: #000; 
+}
+
+/* ==== Trạng thái ==== */
+/* ==== Trạng thái ==== */
+.label { 
+  display: inline-block;      /* để giữ form nhãn đúng */
+  padding: 10px 10px;          /* padding rộng hơn để chữ không bị bó */
+  border-radius: 4px; 
+  font-weight: bold; 
+  font-size: 13px;            /* tăng nhẹ size cho dễ đọc */
+  line-height: 1.4;           /* chiều cao chữ thoáng hơn */
+  white-space: nowrap;        /* luôn giữ nguyên 1 dòng, không bị xuống hàng */
+  text-align: center; 
+}
+
+
+.bg-red { background: #dc3545; color: #fff; }
+.bg-yellow { background: #ffc107; color: #000; }
+.bg-blue { background: #007bff; color: #fff; }
+.bg-green { background: #28a745; color: #fff; }
+
+/* ==== Alert ==== */
+.alert { 
+  position: fixed; 
+  top: 20px; 
+  right: 20px; 
+  padding: 12px 18px; 
+  border-radius: 8px; 
+  font-weight: bold; 
+  display: none; 
+  animation: fadeIn 0.5s, fadeOut 0.5s 2.5s; 
+}
+
+.alert-success { background: #28a745; color: #fff; }
+.alert-danger { background: #dc3545; color: #fff; }
+.alert-info { background: #007bff; color: #fff; }
+
+@keyframes fadeIn { 
+  from { opacity: 0; transform: translateY(-20px); } 
+  to { opacity: 1; transform: translateY(0); } 
+}
+
+@keyframes fadeOut { 
+  from { opacity: 1; transform: translateY(0); } 
+  to { opacity: 0; transform: translateY(-20px); } 
+}
+
   </style>
 </head>
 <body>
