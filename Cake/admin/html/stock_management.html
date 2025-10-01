@@ -59,34 +59,19 @@ button { padding:5px 10px; border:none; border-radius:5px; cursor:pointer; backg
 </div>
 
 <script>
-// Dữ liệu mặc định (chỉnh số lượng thấp để test cảnh báo)
+// Dữ liệu mặc định (có vài sản phẩm stock <= 10)
 let defaultProducts = [
-  {name:"Bánh Kem Dâu",type:"Bánh kem",stock:8},       // còn ít
+  {name:"Bánh Kem Dâu",type:"Bánh kem",stock:5},
   {name:"Bánh Mì Pháp",type:"Bánh mì",stock:200},
-  {name:"Bánh Ngọt Socola",type:"Bánh ngọt",stock:5},  // còn ít
+  {name:"Bánh Ngọt Socola",type:"Bánh ngọt",stock:8},
   {name:"Bánh Kem Matcha",type:"Bánh kem",stock:40},
-  {name:"Bánh Su Kem",type:"Bánh ngọt",stock:10}       // còn ít
+  {name:"Bánh Su Kem",type:"Bánh ngọt",stock:10}
 ];
 
-// Lấy dữ liệu cũ
-let storedProducts = JSON.parse(localStorage.getItem("products")) || [];
+// Luôn dùng defaultProducts (bỏ qua localStorage)
+let products = defaultProducts;
 
-// Cập nhật tất cả sản phẩm
-let products = storedProducts.map(p=>{
-  let defaultItem = defaultProducts.find(d=>d.name===p.name);
-  return {
-    name: p.name,
-    type: p.type || (defaultItem ? defaultItem.type : "Chưa xác định"),
-    stock: p.stock || 0
-  };
-});
-
-// Nếu localStorage trống thì lưu defaultProducts
-if(products.length===0){
-  products = defaultProducts;
-}
-
-// Lưu lại sản phẩm đã sửa vào localStorage
+// Lưu lại vào localStorage (cho sau này)
 localStorage.setItem("products", JSON.stringify(products));
 
 // Điền select sản phẩm

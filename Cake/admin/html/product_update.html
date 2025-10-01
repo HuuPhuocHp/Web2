@@ -110,44 +110,97 @@
   <!-- Alert -->
   <div id="alertBox" class="alert alert-success">Cập nhật sản phẩm thành công!</div>
 
-  <script>
-     // Lấy danh sách sản phẩm từ localStorage
-  let products = JSON.parse(localStorage.getItem("products")) || [
-    {name:"Bánh Kem Dâu",img:"../uploads/anh6.jpg",type:"Bánh kem",brand:"Paris Bakery",import:150000,price:200000,views:120,status:"Hiện",description:"Bánh kem dâu tươi ngon, trang trí đẹp mắt."},
-    {name:"Bánh Mì Pháp",img:"../uploads/anh5.jpg",type:"Bánh mì",brand:"Bread House",import:10000,price:15000,views:300,status:"Hiện",description:"Bánh mì Pháp thơm ngon."},
-    {name:"Bánh Ngọt Socola",img:"../uploads/anh4.jpg",type:"Bánh ngọt",brand:"Sweetie",import:50000,price:75000,views:90,status:"Ẩn",description:"Bánh ngọt socola béo ngậy."},
-    {name:"Bánh Kem Matcha",img:"../uploads/anh3.jpg",type:"Bánh kem",brand:"Tokyo Bakery",import:120000,price:170000,views:80,status:"Hiện",description:"Bánh kem matcha thơm ngon."},
-    {name:"Bánh Su Kem",img:"../uploads/anh2.jpg",type:"Bánh ngọt",brand:"Sweet House",import:30000,price:50000,views:200,status:"Hiện",description:"Bánh su kem mềm mịn."}
-  ];
+<script>
+const el = id => document.getElementById(id);
+const alertBox = el('alertBox');
+function showAlert(msg, ms = 1500){
+  if(alertBox){
+    alertBox.textContent = msg;
+    alertBox.style.display = 'block';
+    setTimeout(()=> alertBox.style.display = 'none', ms);
+  } else {
+    console.log(msg);
+  }
+}
 
-  const editForm = document.getElementById("editProductForm");
+// Lấy danh sách sản phẩm từ localStorage
+let products = JSON.parse(localStorage.getItem("products")) || [];
+// Lấy tên sản phẩm đang chọn chỉnh sửa
+const editName = localStorage.getItem("editProductName");
 
-  editForm.addEventListener("submit", function(e){
-    e.preventDefault();
+// Nếu chưa có sản phẩm để sửa thì quay về danh sách
+if(!editName){
+  alert("Không tìm thấy sản phẩm để chỉnh sửa!");
+  window.location.href = "product_list.html";
+}
 
-    // Lấy dữ liệu từ form
-    const name = document.getElementById("name").value;
-    const brand = document.getElementById("id_brands").selectedOptions[0].text;
-    const type = document.getElementById("id_categories").selectedOptions[0].text;
-    const buy_price = parseInt(document.getElementById("buy_price").value);
-    const sell_price = parseInt(document.getElementById("sell_price").value);
-    const description = document.getElementById("description").value;
-    const status = document.getElementById("status").value === "1" ? "Hiện" : "Ẩn";
+// Tìm vị trí sản phẩm trong mảng
+const productIndex = products.findIndex(p => p && p.name === editName);
+const product = products[productIndex] || {};
 
-    // Giả sử đang chỉnh sửa sản phẩm đầu tiên (có thể thêm logic chọn sản phẩm)
-    products[0] = { ...products[0], name, brand, type, import: buy_price, price: sell_price, status, description };
+// Điền dữ liệu vào form
+if(el('name')) el('name').value = product.name || '';
+if(el('buy_price')) el('buy_price').value = product.import || '';
+if(el('sell_price')) el('sell_price').value = product.price || '';
+if(el('description')) el('description').value = product.description || '';
+if(el('status')) el('status').value = (product.status === "Hiện" ? "1" : "0");
 
-    // Lưu lại localStorage
-    localStorage.setItem("products", JSON.stringify(products));
+// Điền brand / type nếu có select
+if(el('id_brands') && product.brand){
+  const opt = Array.from(el('id_brands').options).find(o => o.text === product.brand);
+  if(opt) el('id_brands').value = opt.value;
+}
+if(el('id_categories') && product.type){
+  const opt2 = Array.from(el('id_categories').options).find(o => o.text === product.type);
+  if(opt2) el('id_categories').value = opt2.value;
+}
 
-    // Hiển thị alert
-    const alertBox = document.getElementById("alertBox");
-    alertBox.style.display = "block";
+// Submit form
+const form = el('editProductForm');
+form.addEventListener('submit', function(e){
+  e.preventDefault();
 
-    setTimeout(()=>{
-      window.location.href = "product_list.html";
-    }, 2000);
-  });
-  </script>
+  const name = el('name').value.trim();
+  const buy_price = parseInt(el('buy_price').value || 0);
+  const sell_price = parseInt(el('sell_price').value || 0);
+  const description = el('description').value;
+  const statusVal = el('status').value;
+  const status = statusVal === "1" ? "Hiện" : "Ẩn";
+
+  let brand = product.brand || '';
+  let type = product.type || '';
+  if(el('id_brands')) brand = el('id_brands').selectedOptions[0].text;
+  if(el('id_categories')) type = el('id_categories').selectedOptions[0].text;
+
+  // Cập nhật sản phẩm trong mảng
+  products[productIndex] = {
+    ...products[productIndex],
+    name,
+    brand,
+    type,
+    import: buy_price,
+    price: sell_price,
+    description,
+    status
+  };
+
+  // Lưu lại localStorage
+  localStorage.setItem("products", JSON.stringify(products));
+
+  // Đồng bộ statusMap (để danh sách tĩnh ngoài list cũng update theo)
+  let statusMap = JSON.parse(localStorage.getItem("statusMap")) || {};
+  statusMap[name] = status;
+  localStorage.setItem("statusMap", JSON.stringify(statusMap));
+
+  // Hiện thông báo và chuyển trang
+  showAlert("Cập nhật sản phẩm thành công!", 1400);
+
+  setTimeout(()=> {
+    window.location.href = "product_list.html";
+  }, 1300);
+});
+</script>
+
+
 </body>
 </html>
