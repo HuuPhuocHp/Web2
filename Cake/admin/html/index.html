@@ -70,69 +70,24 @@
       padding: 20px;
     }
 
-    /* ===== Grid ===== */
+    /* ===== Chart Grid ===== */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 20px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 30px;
     }
 
-    /* ===== Card ===== */
-    .card {
+    .chart-card {
       background: #2c2c2c;
       border-radius: 12px;
       padding: 20px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 16px rgba(255,204,0,0.3);
-    }
-    .card h3, .card h5 { color: #ffcc00; margin-bottom: 10px; }
-    .card p { margin-bottom: 15px; }
-
-    /* ===== Button ===== */
-    .btn {
-      display: inline-block;
-      padding: 6px 14px;
-      border-radius: 8px;
-      background: #ffcc00;
-      color: #000;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s ease;
-    }
-    .btn:hover { background: #ffaa00; }
-    .btn-outline-primary {
-      background: transparent;
-      border: 2px solid #ffcc00;
+    .chart-card h3 {
       color: #ffcc00;
-    }
-    .btn-outline-primary:hover {
-      background: #ffcc00;
-      color: #111;
-    }
-    .btn-sm { padding: 4px 10px; font-size: 14px; }
-
-    /* ===== Table ===== */
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    .table th, .table td {
-      border: 1px solid #333;
-      padding: 10px;
+      margin-bottom: 15px;
       text-align: center;
     }
-    .table th {
-      background: #2a2a2a;
-      color: #ffcc00;
-    }
-    .table tr:nth-child(even) { background: #333; }
-    .table tr:nth-child(odd) { background: #222; }
 
     /* ===== Avatar + Dropdown ===== */
     .navbar-right { position: relative; }
@@ -163,11 +118,6 @@
     .dropdown-menu a:hover { background: #444; color: #ffcc00; }
     .dropdown-menu a:last-child { border-bottom: none; }
 
-    /* ===== Responsive ===== */
-    @media (max-width: 992px) {
-      .layout-menu { width: 200px; }
-      .layout-navbar, .layout-container { margin-left: 200px; }
-    }
     @media (max-width: 768px) {
       .layout-menu { display: none; }
       .layout-navbar, .layout-container { margin-left: 0; }
@@ -205,92 +155,72 @@
 
   <!-- Content -->
   <div class="layout-container">
-    <!-- Các card thống kê -->
     <div class="grid">
-      <div class="card">
-        <h3>Sản phẩm mới</h3>
-        <p>Số lượng: <b>25</b></p>
-        <a href="product_list.html" class="btn btn-outline-primary">Xem chi tiết</a>
+      <div class="chart-card">
+        <h3>Doanh thu theo loại bánh</h3>
+        <canvas id="chartRevenue"></canvas>
       </div>
-      <div class="card">
-        <h3>Người Dùng</h3>
-        <p>Số lượng: <b>120</b></p>
-        <a href="user_list.html" class="btn btn-outline-primary">Xem chi tiết</a>
+      <div class="chart-card">
+        <h3>Số lượng khách hàng theo tháng</h3>
+        <canvas id="chartCustomers"></canvas>
       </div>
-      <div class="card">
-        <h3>Thương Hiệu</h3>
-        <p>Số lượng: <b>18</b></p>
-        <a href="brand_list.html" class="btn btn-outline-primary">Xem chi tiết</a>
+      <div class="chart-card">
+        <h3>Số đơn hàng theo trạng thái</h3>
+        <canvas id="chartOrders"></canvas>
       </div>
-      <div class="card">
-        <h3>Loại Bánh</h3>
-        <p>Số lượng: <b>12</b></p>
-        <a href="category_list.html" class="btn btn-outline-primary">Xem chi tiết</a>
-      </div>
-      <div class="card">
-        <h3>Quản lý Nhập Hàng</h3>
-        <p>Số lượng: <b>5</b></p>
-        <a href="import_list.html" class="btn btn-outline-primary">Xem chi tiết</a>
-      </div>
-      <div class="card">
-        <h3>Quản lý Tồn Kho</h3>
-        <p>Số lượng: <b>4</b></p>
-        <a href="stock_management.html" class="btn btn-outline-primary">Xem chi tiết</a>
-      </div>
-      <div class="card">
-        <h3>Quản lý Giá Bán</h3>
-        <p>Số lượng: <b>5</b></p>
-        <a href="price_management.html" class="btn btn-outline-primary">Xem chi tiết</a>
-      </div>
-      <div class="card">
-        <h3>Số đơn hàng chưa xử lý</h3>
-        <p>Số lượng: <b>7</b></p>
-        <a href="order_list.html" class="btn btn-outline-primary">Xem chi tiết</a>
-      </div>
-    </div>
-
-    <!-- Bảng thống kê người dùng -->
-    <div class="card">
-      <h5>Thống kê người dùng mua nhiều nhất</h5>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>STT</th>
-            <th>Tên khách hàng</th>
-            <th>Tổng tiền đã chi</th>
-            <th>Ngày đặt hàng gần nhất</th>
-            <th>Chi tiết</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td><td>Nguyễn Văn A</td><td>15,000,000 VND</td><td>12-09-2025</td>
-            <td><a href="customer_orders.html" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
-          </tr>
-          <tr>
-            <td>2</td><td>Trần Thị B</td><td>10,500,000 VND</td><td>10-09-2025</td>
-            <td><a href="customer_orders.html" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
 
-  <!-- JS -->
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
+    // Chart 1: Doanh thu theo loại bánh
+    new Chart(document.getElementById("chartRevenue"), {
+      type: "pie",
+      data: {
+        labels: ["Bánh kem", "Bánh ngọt", "Bánh mì", "Bánh quy"],
+        datasets: [{
+          data: [50000000, 30000000, 15000000, 10000000],
+          backgroundColor: ["#ffcc00", "#ff6600", "#3399ff", "#66cc66"]
+        }]
+      }
+    });
+
+    // Chart 2: Số lượng khách hàng theo tháng
+    new Chart(document.getElementById("chartCustomers"), {
+      type: "doughnut",
+      data: {
+        labels: ["Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10"],
+        datasets: [{
+          data: [50, 70, 90, 120],
+          backgroundColor: ["#ffcc00", "#ff6600", "#3399ff", "#66cc66"]
+        }]
+      }
+    });
+
+    // Chart 3: Số đơn hàng theo trạng thái
+    new Chart(document.getElementById("chartOrders"), {
+      type: "pie",
+      data: {
+        labels: ["Chưa xử lý", "Đang giao", "Hoàn thành", "Đã hủy"],
+        datasets: [{
+          data: [7, 12, 45, 5],
+          backgroundColor: ["#ffcc00", "#ff6600", "#3399ff", "#ff3333"]
+        }]
+      }
+    });
+
+    // Dropdown menu avatar
     const avatarBtn = document.getElementById('avatarBtn');
     const dropdownMenu = document.getElementById('dropdownMenu');
-
     avatarBtn.addEventListener('click', () => {
       dropdownMenu.style.display = dropdownMenu.style.display === 'flex' ? 'none' : 'flex';
     });
-
     document.addEventListener('click', function(e) {
       if (!avatarBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
         dropdownMenu.style.display = 'none';
       }
     });
-
     document.getElementById('logoutBtn').addEventListener('click', function(e) {
       e.preventDefault();
       if (confirm("Bạn có chắc chắn muốn đăng xuất không?")) {
