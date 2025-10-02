@@ -198,50 +198,38 @@
     border-radius: 10px;
     font-size: 0.65rem;
   }
-  /* Logged-out big login icon */
+  /* Logged-out login link: inline small icon + text (match register style) */
   #header-user-loggedout a.login-icon {
-    position: relative;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #f8f8f9, #ffffff);
-    box-shadow: 0 7px 22px -12px rgba(0,0,0,.18), 0 3px 10px -6px rgba(0,0,0,.12);
-    transition: 0.3s;
-    overflow: hidden;
+    gap: 6px;
     text-decoration: none;
+    background: transparent;
+    box-shadow: none;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    padding: 0;
+    transition: color .25s ease;
   }
   #header-user-loggedout a.login-icon i {
-    font-size: 26px;
+    font-size: 16px;
     color: #e56700 !important;
   }
-  #header-user-loggedout a.login-icon span.txt {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    border: 0;
+  #header-user-loggedout a.login-icon .txt {
+    position: static;
+    width: auto; height: auto; padding: 0; margin: 0;
+    overflow: visible; clip: auto; border: 0;
+    font-weight: 600; color: #e56700;
   }
-  #header-user-loggedout a.login-icon:hover {
-    background: linear-gradient(135deg, #fff, #ffe8d6);
-    transform: translateY(-3px);
+  #header-user-loggedout a.login-icon:hover .txt,
+  #header-user-loggedout a.login-icon:hover i {
+    color: #ff7a00 !important;
   }
-  #header-user-loggedout span.divider {
-    margin: 0 4px;
-    opacity: 0.4;
-  }
-  #header-user-loggedout a.register-link {
-    font-weight: 600;
-    color: #e56700;
-  }
-  #header-user-loggedout a.register-link:hover {
-    color: #ff7a00;
-  }
+  #header-user-loggedout span.divider { margin: 0 6px; opacity: 0.4; }
+  #header-user-loggedout a.register-link { font-weight: 600; color: #e56700; display:inline-flex; align-items:center; gap:6px; }
+  #header-user-loggedout a.register-link i { font-size:16px; }
+  #header-user-loggedout a.register-link:hover { color: #ff7a00; }
   /* Bỏ dấu/chấm/đường kẻ quanh icon giỏ */
   .header__cart ul {
     margin: 0;

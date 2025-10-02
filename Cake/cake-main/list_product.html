@@ -225,11 +225,11 @@
 
             async function fetchData() {
                 try {
-                    const response = await fetch('database/product.json');
-                    allProducts = await response.json();
+                    allProducts = await (window.loadProducts ? window.loadProducts() : fetch('database/product.json').then(r=>r.json()));
                 } catch (error) {
                     console.error("Lỗi khi tải dữ liệu sản phẩm:", error);
                     document.getElementById('product-grid').innerHTML = '<p class="text-danger">Không thể tải sản phẩm.</p>';
+                    allProducts = [];
                 }
             }
 
@@ -321,12 +321,28 @@
 
             function renderCategories() {
                 const categoryFilter = document.getElementById('category-filter');
-                const categories = [...new Map(allProducts.map(p => [p.CategoryId, p.CategoryName])).values()];
-                categoryFilter.innerHTML = '<option value="">Tất cả loại bánh</option>';
-                categories.sort().forEach((name, index) => {
-                    const catId = [...new Map(allProducts.map(p => [p.CategoryId, p.CategoryName])).keys()][index];
-                    categoryFilter.innerHTML += `<option value="${catId}">${name}</option>`;
+                // Xây map 1 lần: CategoryId (string) -> CategoryName
+                const catMap = new Map();
+                (allProducts || []).forEach(p => {
+                    const id = String(p.CategoryId);
+                    if (!catMap.has(id)) catMap.set(id, p.CategoryName);
                 });
+                // Tạo mảng entries rồi sort theo tên loại
+                const catEntries = Array.from(catMap.entries()) // [ [id, name], ... ]
+                    .sort((a, b) => String(a[1] || '').localeCompare(String(b[1] || '')));
+
+                categoryFilter.innerHTML = '<option value="">Tất cả loại bánh</option>';
+                catEntries.forEach(([id, name]) => {
+                    categoryFilter.innerHTML += `<option value="${id}">${name}</option>`;
+                });
+            }
+
+            // Đọc category từ URL (?categoryId= / ?category= / ?cat=)
+            function getInitialCategoryIdFromURL() {
+                try {
+                    const params = new URLSearchParams(location.search);
+                    return params.get('categoryId') || params.get('category') || params.get('cat') || '';
+                } catch { return ''; }
             }
 
             function attachEventListeners() {
@@ -369,6 +385,13 @@
             includeHTML('footer-placeholder', 'inc/footer.html', afterInclude);
             await fetchData();
             renderCategories();
+            // Áp dụng category mặc định nếu có trên URL
+            const initCat = getInitialCategoryIdFromURL();
+            if (initCat) {
+                state.categoryId = String(initCat);
+                const sel = document.getElementById('category-filter');
+                if (sel) sel.value = state.categoryId;
+            }
             renderProducts();
             attachEventListeners();
             window.addEventListener('cartUpdated', updateCartCountInHeader);

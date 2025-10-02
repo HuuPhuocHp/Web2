@@ -235,12 +235,6 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>window.jQuery || document.write('<script src="js/jquery-3.3.1.min.js"><\/script>')</script>
   <script src="js/bootstrap.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/jquery.nice-select.min.js"></script>
-  <script src="js/jquery.slicknav.js"></script>
-  <script src="js/jquery.nicescroll.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/jquery.barfiller.js"></script>
   <script src="js/main.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/auth.js"></script>
@@ -339,12 +333,8 @@
         if (totalEl) totalEl.textContent = '0 VND';
         return;
       }
-      let pmap = {};
-      try {
-        const res = await fetch('./database/product.json');
-        const arr = await res.json();
-        pmap = Object.fromEntries(arr.map(p => [Number(p.ProductId), p]));
-      } catch {}
+        const products = await (window.loadProducts ? window.loadProducts() : fetch('./database/product.json').then(r=>r.json()));
+        let pmap = Object.fromEntries(products.map(p => [Number(p.ProductId), p]));
       let total = 0;
       tbody.innerHTML = items.map(it => {
         const pid = Number(it.productId ?? it.id);
