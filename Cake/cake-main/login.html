@@ -92,7 +92,9 @@
                     <a class="link-muted" href="register.html">Chưa có tài khoản?</a>
                   </div>
                   <button class="btn primary-btn w-100" type="submit">Đăng nhập</button>
-               
+                </form>
+                 <button class="btn btn-dark admin-btn" id="adminLoginBtn">Đăng nhập Quản trị viên</button>
+                <div id="error" class="text-danger mt-3"></div>
           </div>
         </div>
       </div>
@@ -186,7 +188,7 @@
           }
         });
 
-        // Admin login navigation
+        // Admin login navigation -> redirect to admin login page
         document.getElementById('adminLoginBtn').addEventListener('click', () => {
           window.location.href = '../admin/html/login_admin.html';
         });

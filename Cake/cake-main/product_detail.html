@@ -198,6 +198,8 @@
             function renderProductDetails(product) {
                         if (!product) {
                             console.error("Không tìm thấy sản phẩm.");
+                            const row = document.getElementById('productDetailsRow');
+                            if (row) row.innerHTML = '<div class="col-12"><p class="text-danger">Không tìm thấy sản phẩm.</p></div>';
                             return;
                         }
 
@@ -349,9 +351,16 @@
                     return;
                 }
                 try {
-                        const products = await (window.loadProducts ? window.loadProducts() : fetch('database/product.json').then(r=>r.json()));
-                    const allProducts = await res.json();
-                    const product = allProducts.find(p=> String(p.ProductId) === String(productId));
+                        const products = await (window.loadProducts
+                            ? window.loadProducts()
+                            : fetch('database/product.json').then(r => {
+                                if (!r.ok) throw new Error('Không thể tải dữ liệu sản phẩm.');
+                                return r.json();
+                            }));
+                    if (!Array.isArray(products)) {
+                        throw new Error('Dữ liệu sản phẩm không hợp lệ.');
+                    }
+                    const product = products.find(p => String(p.ProductId) === String(productId));
                     if(!product){
                         const row = document.getElementById('productDetailsRow');
                         if(row) row.innerHTML = '<div class="col-12"><p class="text-danger">Không tìm thấy sản phẩm.</p></div>';

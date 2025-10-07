@@ -150,8 +150,17 @@
         box-shadow: 0 2px 8px -2px rgba(255, 122, 0, 0.55);
       }
       .about__bar__item p {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         font-weight: 600;
         color: var(--orange-650);
+        margin-bottom: 6px;
+      }
+      .about__bar__item .about__percentage {
+        font-weight: 700;
+        color: var(--orange-600);
+        font-size: 0.9rem;
       }
       .barfiller {
         background: var(--orange-100);
@@ -826,19 +835,19 @@
           <div class="col-lg-6 col-md-6">
             <div class="about__bar">
               <div class="about__bar__item">
-                <p>Thiết kế bánh</p>
+                <p>Thiết kế bánh <span class="about__percentage">95%</span></p>
                 <div id="bar1" class="barfiller">
                   <span class="fill" data-percentage="95"></span>
                 </div>
               </div>
               <div class="about__bar__item">
-                <p>Lớp học làm bánh</p>
+                <p>Lớp học làm bánh <span class="about__percentage">80%</span></p>
                 <div id="bar2" class="barfiller">
                   <span class="fill" data-percentage="80"></span>
                 </div>
               </div>
               <div class="about__bar__item">
-                <p>Công thức bánh</p>
+                <p>Công thức bánh <span class="about__percentage">90%</span></p>
                 <div id="bar3" class="barfiller">
                   <span class="fill" data-percentage="90"></span>
                 </div>

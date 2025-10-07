@@ -113,7 +113,7 @@ const Cart = {
 
         if (i >= 0) cart[i].qty = desiredTotal; else cart.push({ productId: pid, qty });
         this.setCart(cart);
-        notify(`Đã thêm '${product.Name}' vào giỏ hàng! (${desiredTotal}/${maxStock})`);
+  notify(`Đã thêm '${product.Name}' vào giỏ hàng!`);
         return true;
     },
 
