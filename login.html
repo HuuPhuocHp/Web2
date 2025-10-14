@@ -122,7 +122,21 @@
         const includeHTML = (elementId, filePath, callback) => {
           fetch(filePath)
             .then(r => r.ok ? r.text() : Promise.reject('File not found'))
-            .then(html => { const el = document.getElementById(elementId); if (el) el.innerHTML = html; if (callback) callback(); })
+            .then(html => { 
+              const el = document.getElementById(elementId); 
+              if (el) { 
+                el.innerHTML = html; 
+                // Execute scripts inside the fragment
+                const scripts = el.querySelectorAll('script');
+                scripts.forEach(old => {
+                  const s = document.createElement('script');
+                  for (const attr of old.attributes) s.setAttribute(attr.name, attr.value);
+                  if (old.src) s.src = old.src; else s.textContent = old.textContent || old.innerHTML;
+                  (document.body || document.head).appendChild(s);
+                });
+                if (callback) callback();
+              }
+            })
             .catch(err => { console.error('Lỗi khi tải', filePath, err); if (callback) callback(); });
         };
 
@@ -188,9 +202,9 @@
           }
         });
 
-        // Admin login navigation -> redirect to admin login page
+        // Admin login navigation -> trỏ tới trang quản trị hiện có
         document.getElementById('adminLoginBtn').addEventListener('click', () => {
-          window.location.href = '../admin/html/login_admin.html';
+          window.location.href = 'admin/login_admin.html';
         });
 
         // Keep header counters up to date
