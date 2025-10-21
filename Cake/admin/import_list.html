@@ -4,39 +4,116 @@
   <meta charset="UTF-8">
   <title>Quản lý Phiếu Nhập</title>
   <style>
-    body { font-family: Arial,sans-serif; background:#1b1b1b; color:#eee; padding:20px; }
-    h2 { color:#ffcc00; margin-bottom:20px; }
-    table { width:100%; border-collapse:collapse; margin-top:20px; }
-    th, td { padding:10px; border:1px solid #333; text-align:center; }
-    th { background:#2a2a2a; color:#ffcc00; }
-    tr:nth-child(even) { background:#333; }
-    tr:nth-child(odd) { background:#222; }
-    button { padding:6px 12px; border:none; border-radius:6px; cursor:pointer; margin:3px; font-weight:bold; }
-    .btn-add { background:#ffcc00; color:#111; }
-    .btn-edit { background:#0d6efd; color:#fff; }
-    .btn-complete { background:#28a745; color:#fff; }
-
-    #formContainer { 
-      display:none; 
-      margin-top:20px; 
-      max-width:500px; 
-      background:#2c2c2c; 
-      padding:20px; 
-      border-radius:12px; 
-      box-shadow:0 4px 12px rgba(0,0,0,0.4);
+    body {
+      font-family: Arial, sans-serif;
+      background: #1b1b1b;
+      color: #eee;
+      padding: 20px;
     }
-    #formContainer label { display:block; margin-top:10px; margin-bottom:5px; }
-    #formContainer input { width:100%; padding:8px; border-radius:6px; border:1px solid #555; background:#333; color:#fff; }
-    #formContainer button { margin-top:15px; }
 
-    .btn-home-container { text-align:center; margin-top:30px; }
+    h2 {
+      color: #ffcc00;
+      margin-bottom: 20px;
+      text-align: center; /* ✅ Căn giữa chữ */
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #333;
+      text-align: center;
+    }
+
+    th {
+      background: #2a2a2a;
+      color: #ffcc00;
+    }
+
+    tr:nth-child(even) { background: #333; }
+    tr:nth-child(odd) { background: #222; }
+
+    button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 3px;
+      font-weight: bold;
+    }
+
+    .btn-add { background: #ffcc00; color: #111; }
+    .btn-edit { background: #0d6efd; color: #fff; }
+    .btn-complete { background: #28a745; color: #fff; }
+
+    /* Ô tìm kiếm */
+    .layout-navbar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .search-input {
+      width: 5000px;
+      padding: 8px 12px;
+      border: 1px solid #555;
+      border-radius: 6px;
+      background: #333;
+      color: #fff;
+      text-align: center;
+    }
+
+    .search-input::placeholder {
+      color: #aaa;
+      text-align: center;
+    }
+
+    /* Form thêm/sửa */
+    #formContainer {
+      display: none;
+      margin-top: 20px;
+      max-width: 500px;
+      background: #2c2c2c;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      margin-left: auto;
+      margin-right: auto; /* ✅ Căn giữa form */
+    }
+
+    #formContainer label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    #formContainer input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #555;
+      background: #333;
+      color: #fff;
+    }
+
+    #formContainer button { margin-top: 15px; }
+
+    .btn-home-container {
+      text-align: center;
+      margin-top: 30px;
+    }
+
     .btn-home {
-      background:#ffcc00; 
-      color:#111; 
-      padding:10px 20px; 
-      border-radius:8px;
-      text-decoration:none;
-      font-weight:bold;
+      background: #ffcc00;
+      color: #111;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -44,7 +121,13 @@
 
   <h2>Quản lý Phiếu Nhập</h2>
 
-  <button class="btn-add" onclick="showAddForm()">Thêm phiếu nhập mới</button>
+  <nav class="layout-navbar">
+    <input type="text" id="searchInput" class="search-input" placeholder="Tìm kiếm sản phẩm..." onkeyup="searchBrand()">
+  </nav>
+
+  <div style="text-align:center;">
+    <button class="btn-add" onclick="showAddForm()">Thêm phiếu nhập mới</button>
+  </div>
 
   <table>
     <thead>
@@ -62,7 +145,7 @@
   </table>
 
   <div id="formContainer">
-    <h3 id="formTitle">Thêm Phiếu Nhập</h3>
+    <h3 id="formTitle" style="text-align:center;">Thêm Phiếu Nhập</h3>
     <label>Tên sản phẩm:</label>
     <input type="text" id="productInput" placeholder="Nhập tên sản phẩm...">
 
@@ -83,7 +166,6 @@
     <a href="index.html" class="btn-home">🏠 Quay về Trang chủ</a>
   </div>
 
-  <!-- ✅ CHUYỂN SCRIPT XUỐNG CUỐI BODY -->
   <script>
     let receipts = [];
 
@@ -106,9 +188,9 @@
       }
     }
 
-    function renderReceipts() {
+    function renderReceipts(filteredList = receipts) {
       const tbody = document.getElementById("receiptTable");
-      tbody.innerHTML = receipts.map((r, i) => `
+      tbody.innerHTML = filteredList.map((r, i) => `
         <tr>
           <td>${i + 1}</td>
           <td>${r.date}</td>
@@ -124,6 +206,12 @@
           </td>
         </tr>
       `).join('');
+    }
+
+    function searchBrand() {
+      const keyword = document.getElementById("searchInput").value.toLowerCase().trim();
+      const filtered = receipts.filter(r => r.product.toLowerCase().includes(keyword));
+      renderReceipts(filtered);
     }
 
     function showAddForm() {
@@ -180,7 +268,6 @@
       renderReceipts();
     }
 
-    // ✅ GỌI NGAY SAU KHI DOM TẢI
     document.addEventListener("DOMContentLoaded", () => {
       initData();
       renderReceipts();
