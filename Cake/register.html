@@ -31,8 +31,6 @@
     .input-group-text { background:#fff; border:none; color:var(--orange-600); font-size:.9rem; }
     .input-group .form-control { border:none; padding:12px 14px; font-size:.95rem; }
     .input-group .form-control:focus { box-shadow:none; }
-    /* highlight invalid input group */
-    .input-group.invalid { border-color:#dc3545; box-shadow:0 0 0 3px rgba(220,53,69,.08); }
   .primary-btn, .btn.primary-btn { background:var(--orange-500); border:none; border-radius:20px; padding:15px 22px; font-size:.9rem; font-weight:700; letter-spacing:.5px; transition:.25s; box-shadow:var(--shadow-soft); }
     .primary-btn:hover { background:var(--orange-600); transform:translateY(-2px); }
     .primary-btn:active { background:var(--orange-700); transform:translateY(0); }
@@ -147,12 +145,7 @@
     // Register submit
     document.getElementById('register-form').addEventListener('submit', (e) => {
       e.preventDefault();
-      const fullnameInput = document.getElementById('fullname');
-      const fullnameRaw = fullnameInput.value || '';
-      // Chuẩn hoá tên: gom nhiều khoảng trắng thành 1, bỏ khoảng trắng đầu/cuối
-      const normalizedName = fullnameRaw.replace(/\s+/g, ' ').trim();
-      // Cập nhật lại vào ô nhập để người dùng thấy tên đã chuẩn hoá
-      fullnameInput.value = normalizedName;
+      const fullname = document.getElementById('fullname').value.trim();
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
       const confirm = document.getElementById('confirm').value;
@@ -160,32 +153,10 @@
       const address = document.getElementById('address').value.trim();
       const error = document.getElementById('error');
       error.textContent = '';
-      // clear trạng thái invalid cũ (nếu có)
-      document.querySelectorAll('.input-group.invalid').forEach(el=>el.classList.remove('invalid'));
-
-      // Kiểm tra Họ và tên: không rỗng/không chỉ khoảng trắng, không chứa số hoặc ký tự đặc biệt
-      if (!normalizedName) {
-        fullnameInput.closest('.input-group')?.classList.add('invalid');
-        error.textContent = 'Họ và tên không được để trống hoặc chỉ chứa khoảng trắng';
-        return;
-      }
-      let nameValid = true;
-      try {
-        // Chỉ cho phép ký tự chữ (mọi ngôn ngữ) và khoảng trắng giữa các từ
-        nameValid = new RegExp('^[\\\p{L} ]+$','u').test(normalizedName);
-      } catch (e) {
-        // Fallback cho trình duyệt không hỗ trợ Unicode property escapes
-        nameValid = /^[A-Za-zÀ-ỹĂăÂâĐđÊêÔôƠơƯư\s]+$/.test(normalizedName);
-      }
-      if (!nameValid) {
-        fullnameInput.closest('.input-group')?.classList.add('invalid');
-        error.textContent = 'Họ và tên chỉ được chứa chữ cái và khoảng trắng (không có số và ký tự đặc biệt)';
-        return;
-      }
       if(password !== confirm){ error.textContent = 'Mật khẩu xác nhận không khớp'; return; }
       if(number_phone && !/^[0-9]{9,11}$/.test(number_phone)){ error.textContent='Số điện thoại không hợp lệ'; return; }
       try {
-        const user = Auth.register({ fullname: normalizedName, email, password, number_phone, address });
+        const user = Auth.register({ fullname, email, password, number_phone, address });
         // Merge guest cart -> cart_{user.id}
         try {
           const guest = JSON.parse(localStorage.getItem('cart_guest') || '[]');
